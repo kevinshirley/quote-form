@@ -19,3 +19,8 @@
 body {
   box-sizing: border-box;
 }
+
+.common-checkbox .ant-checkbox-wrapper {
+  @apply mb-4;
+  @apply text-lg;
+}

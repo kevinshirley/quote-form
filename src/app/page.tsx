@@ -1,19 +1,15 @@
 import Slider from '@/components/slider'
 import Card from '@/components/card'
+import FormItem from '@/components/form-item'
+import AdditionalServices from '@/components/form-flow/additional-services'
 
 export default function Home() {
   return (
     <main className='relative bg-gray-200 min-h-screen py-6'>
-      <div className='py-2 px-6 mb-20'>
-        <div className='mb-12'>
-          <h2 className='font-semibold text-xl'>1. How many pages your project will have?</h2>
-        </div>
+      <FormItem title='1. How many pages your project will have?'>
         <Slider min={1} max={20} />
-      </div>
-      <div className='py-2 px-6 mb-20'>
-        <div className='mb-12'>
-          <h2 className='font-semibold text-xl'>2. Which design service your company needs?</h2>
-        </div>
+      </FormItem>
+      <FormItem title='2. Which design service your company needs?'>
         <div className='flex flex-col items-center'>
           <Card
             title='None'
@@ -28,11 +24,8 @@ export default function Home() {
             text='I want to use an existing template'
           />
         </div>
-      </div>
-      <div className='py-2 px-6 mb-20'>
-        <div className='mb-12'>
-          <h2 className='font-semibold text-xl'>3. Which development service your company needs?</h2>
-        </div>
+      </FormItem>
+      <FormItem title='3. Which development service your company needs?'>
         <div className='flex flex-col items-center'>
           <Card
             title='New Website Development'
@@ -47,11 +40,8 @@ export default function Home() {
             text=''
           />
         </div>
-      </div>
-      <div className='py-2 px-6 mb-20'>
-        <div className='mb-12'>
-          <h2 className='font-semibold text-xl'>4. Would you like to use animations on your website?</h2>
-        </div>
+      </FormItem>
+      <FormItem title='4. Would you like to use animations on your website?'>
         <div className='flex flex-col items-center'>
           <Card
             title='None'
@@ -66,7 +56,8 @@ export default function Home() {
             text='Very unique and customised animations'
           />
         </div>
-      </div>
+      </FormItem>
+      <AdditionalServices />
     </main>
   );
 }
