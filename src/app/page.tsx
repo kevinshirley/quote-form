@@ -2,6 +2,7 @@ import Slider from '@/components/slider'
 import Card from '@/components/card'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
+import ContactInformation from '@/components/form-flow/contact-information'
 
 export default function Home() {
   return (
@@ -58,6 +59,7 @@ export default function Home() {
         </div>
       </FormItem>
       <AdditionalServices />
+      <ContactInformation />
     </main>
   );
 }

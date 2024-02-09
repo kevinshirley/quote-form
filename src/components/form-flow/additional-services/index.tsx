@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import FormItem from '@/components/form-item'
 import CheckboxGroup from '@/components/checkbox-group'
