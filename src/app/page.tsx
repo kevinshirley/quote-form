@@ -29,6 +29,25 @@ export default function Home() {
           />
         </div>
       </div>
+      <div className='py-2 px-6 mb-20'>
+        <div className='mb-12'>
+          <h2 className='font-semibold text-xl'>3. Which development service your company needs?</h2>
+        </div>
+        <div className='flex flex-col items-center'>
+          <Card
+            title='New Website Development'
+            text=''
+          />
+          <Card
+            title='Existing Website Migration'
+            text=''
+          />
+          <Card
+            title='Other'
+            text=''
+          />
+        </div>
+      </div>
     </main>
   );
 }
