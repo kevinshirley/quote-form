@@ -48,6 +48,25 @@ export default function Home() {
           />
         </div>
       </div>
+      <div className='py-2 px-6 mb-20'>
+        <div className='mb-12'>
+          <h2 className='font-semibold text-xl'>4. Would you like to use animations on your website?</h2>
+        </div>
+        <div className='flex flex-col items-center'>
+          <Card
+            title='None'
+            text='Static page with no animations'
+          />
+          <Card
+            title='Basic'
+            text='Basic fade in / fade out animations'
+          />
+          <Card
+            title='Advanced'
+            text='Very unique and customised animations'
+          />
+        </div>
+      </div>
     </main>
   );
 }
