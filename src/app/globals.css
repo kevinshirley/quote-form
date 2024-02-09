@@ -24,3 +24,12 @@ body {
   @apply mb-4;
   @apply text-lg;
 }
+
+.quote-form-submut-btn:hover {
+  @apply text-slate-900 !important;
+  @apply border-slate-900 !important;
+}
+
+.quote-form-item:nth-last-child(2) {
+  @apply mb-4;
+}

@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 
 interface FormItemProps {
-  title: string;
+  title?: string;
   children: ReactNode;
 }
 
@@ -12,10 +12,12 @@ const FormItem: React.FC<FormItemProps> = ({
   children,
 }) => {
   return (
-    <div className='py-2 px-6 mb-20'>
-      <div className='mb-12'>
-        <h2 className='font-semibold text-xl'>{title}</h2>
-      </div>
+    <div className='quote-form-item py-2 px-6 mb-20'>
+      {title && (
+        <div className='mb-12'>
+          <h2 className='font-semibold text-xl'>{title}</h2>
+        </div>
+      )}
       {children}
     </div>
   )

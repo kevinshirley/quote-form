@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import Slider from '@/components/slider'
 import Card from '@/components/card'
 import FormItem from '@/components/form-item'
@@ -60,6 +61,14 @@ export default function Home() {
       </FormItem>
       <AdditionalServices />
       <ContactInformation />
+      <FormItem>
+        <Button
+          className='quote-form-submut-btn w-full border-slate-900 border-2 text-slate-900 bg-slate-900 text-white h-14'
+          size='large'
+        >
+          Primary
+        </Button>
+      </FormItem>
     </main>
   );
 }
