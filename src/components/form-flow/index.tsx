@@ -1,15 +1,24 @@
+'use client'
+
 import { Button } from 'antd'
 import Slider from '@/components/slider'
 import Card from '@/components/card'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
+import { useAppContext } from '@/context/app-context'
 
 export default function FormFlow() {
+  const { currentQuoteForm } = useAppContext()
+  console.log({ currentQuoteForm })
+
   return (
     <section className='relative pt-6 pb-16'>
       <FormItem title='1. How many pages your project will have?'>
-        <Slider min={1} max={20} />
+        <Slider
+          min={1}
+          max={20}
+        />
       </FormItem>
       <FormItem title='2. Which design service your company needs?'>
         <div className='flex flex-col items-center'>
