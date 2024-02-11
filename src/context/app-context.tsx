@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   ReactNode,
@@ -9,8 +9,21 @@ import {
   Dispatch,
 } from 'react'
 
+interface CurrentQuoteFormOptionType {
+  id: string;
+  value: string | number | boolean;
+  title: string;
+  label: string;
+  price: number;
+}
+
 interface CurrentQuoteFormType {
-  
+  id: string;
+  order: number;
+  price: number;
+  value: string | number | boolean;
+  type: string;
+  options?: CurrentQuoteFormOptionType[];
 }
 
 interface AppContextProviderType {
@@ -37,6 +50,29 @@ export default function AppContextProvider({ children }: { children: ReactNode }
       price: 900,
       value: 1,
       type: 'radioCard',
+      options: [
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
+          value: 'design',
+          title: 'None',
+          label: 'I already have a design',
+          price: 0,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63k8t',
+          value: 'template',
+          title: 'Template',
+          label: 'I want to use an existing template',
+          price: 0,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63k8t',
+          value: 'custom',
+          title: 'Custom',
+          label: 'Custom design with style guide',
+          price: 200,
+        },
+      ],
     },
   ]);
 
