@@ -22,40 +22,44 @@ export default function FormFlow() {
 
   return (
     <section className='relative pt-6 pb-16'>
-      <FormItem title='1. How many pages your project will have?'>
+      <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
         <Slider
           min={1}
           max={20}
+          sliderItem={currentQuoteForm && currentQuoteForm[0]}
         />
       </FormItem>
-      <FormItem title='2. Which design service your company needs?'>
+      <FormItem title={currentQuoteForm && currentQuoteForm[1].question || ''}>
         <div className='flex flex-col items-center'>
           <CardRadioGroup
+            name={currentQuoteForm && currentQuoteForm[1].name || ''}
             items={currentQuoteForm && currentQuoteForm[1].options || []}
             onChange={onCardRadioGroupChange}
             value={cardRadioGroupValue}
           />
         </div>
       </FormItem>
-      <FormItem title='3. Which development service your company needs?'>
+      <FormItem title={currentQuoteForm && currentQuoteForm[2].question || ''}>
         <div className='flex flex-col items-center'>
           <CardRadioGroup
+            name={currentQuoteForm && currentQuoteForm[2].name || ''}
             items={currentQuoteForm && currentQuoteForm[2].options || []}
             onChange={onCardRadioGroupChange}
             value={cardRadioGroupValue}
           />
         </div>
       </FormItem>
-      <FormItem title='4. Would you like to use animations on your website?'>
+      <FormItem title={currentQuoteForm && currentQuoteForm[3].question}>
         <div className='flex flex-col items-center'>
           <CardRadioGroup
+            name={currentQuoteForm && currentQuoteForm[3].name || ''}
             items={currentQuoteForm && currentQuoteForm[3].options || []}
             onChange={onCardRadioGroupChange}
             value={cardRadioGroupValue}
           />
         </div>
       </FormItem>
-      <AdditionalServices />
+      <AdditionalServices quoteFormItem={currentQuoteForm && currentQuoteForm[4]} />
       <ContactInformation />
       <FormItem>
         <Button

@@ -7,9 +7,14 @@ import { useAppContext } from '@/context/app-context'
 interface CommonSliderProps {
   max: number;
   min: number;
+  sliderItem: any;
 }
 
-const CommonSlider: React.FC<CommonSliderProps> = (props) => {
+const CommonSlider: React.FC<CommonSliderProps> = ({
+  min,
+  max,
+  sliderItem,
+}) => {
   const [value, setValue] = useState(0);
 
   const {
@@ -30,11 +35,8 @@ const CommonSlider: React.FC<CommonSliderProps> = (props) => {
       setCurrentQuoteForm([
         ...updatedCurrentQuoteForm,
         {
-          id: '1',
-          order: 1,
-          price: 900 * value,
+          ...sliderItem,
           value: value,
-          type: 'slider',
         },
       ].sort((a: any, b: any) => parseFloat(a.order) - parseFloat(b.order)))
     }
@@ -45,7 +47,8 @@ const CommonSlider: React.FC<CommonSliderProps> = (props) => {
       defaultValue={1}
       onChange={onChange}
       value={value}
-      {...props}
+      min={min}
+      max={max}
     />
   );
 }

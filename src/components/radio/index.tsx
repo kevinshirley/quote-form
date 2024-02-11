@@ -3,7 +3,7 @@ import { Radio, RadioChangeEvent } from 'antd'
 interface CardRadioGroupItemType {
   value: string | number | boolean;
   eyebrow?: string;
-  title: string;
+  title?: string;
   label: string;
 }
 
@@ -11,16 +11,23 @@ interface CardRadioGroupType {
   onChange: (event: RadioChangeEvent) => void;
   items: CardRadioGroupItemType[];
   value: string | number | boolean;
+  name: string | null;
 }
 
 export const CardRadioGroup: React.FC<CardRadioGroupType> = ({
   onChange,
+  name,
   items,
   value,
 }) => (
   <>
     {items && (
-      <Radio.Group onChange={onChange} value={value} className='w-full flex flex-col items-center'>
+      <Radio.Group
+        name={name || ''}
+        onChange={onChange}
+        value={value}
+        className='w-full flex flex-col items-center'
+      >
         {items.map((item: CardRadioGroupItemType, index: number) => (
           <label key={index} className='bg-gray-100 border-gray-300 border-2 rounded-md flex justify-center items-center flex-col py-4 px-4 w-full max-w-sm h-48 mb-6 cursor-pointer text-center relative hover:shadow-md'>
             <Radio

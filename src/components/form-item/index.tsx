@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 
 interface FormItemProps {
-  title?: string;
+  title?: string | null;
   children: ReactNode;
 }
 

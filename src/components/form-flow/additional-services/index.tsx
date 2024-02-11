@@ -2,30 +2,27 @@
 
 import FormItem from '@/components/form-item'
 import CheckboxGroup from '@/components/checkbox-group'
+import { CurrentQuoteFormType } from '@/context/app-context'
 
-const CommonCheckbox: React.FC = () => {
-  const additionalServices = [
-    { label: 'Google Advertising', value: 'Google Advertising' },
-    { label: 'Google Analytics', value: 'Google Analytics' },
-    { label: 'Facebook Advertising', value: 'Facebook Advertising' },
-    { label: 'Google Tag Manager', value: 'Google Tag Manager' },
-    { label: 'Google Maps & Company', value: 'Google Maps & Company' },
-    { label: 'Other', value: 'Other' },
-  ];
+interface AdditionalServicesType {
+  quoteFormItem: CurrentQuoteFormType | null;
+}
 
+const AdditionalServices: React.FC<AdditionalServicesType> = ({ quoteFormItem }) => {
   const onAdditionalServiceChange: any = (e: any) => {
     console.log('onAdditionalServiceChange: ', e)
   }
 
   return (
-    <FormItem title='5. Which additional services should to be used?'>
+    <FormItem title={quoteFormItem?.question || ''}>
       <CheckboxGroup
         className='flex flex-col grow common-checkbox'
-        options={additionalServices}
+        options={quoteFormItem && quoteFormItem?.options || []}
         onChange={onAdditionalServiceChange}
+        name={quoteFormItem?.name || ''}
       />
     </FormItem>
   )
-};
+}
 
-export default CommonCheckbox;
+export default AdditionalServices

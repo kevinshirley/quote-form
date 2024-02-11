@@ -12,17 +12,19 @@ import {
 interface CurrentQuoteFormOptionType {
   id: string;
   value: string | number | boolean;
-  title: string;
+  title?: string;
   label: string;
   price: number;
 }
 
-interface CurrentQuoteFormType {
+export interface CurrentQuoteFormType {
   id: string;
+  question: string;
   order: number;
   price: number;
   value: string | number | boolean;
   type: string;
+  name?: string;
   options?: CurrentQuoteFormOptionType[];
 }
 
@@ -39,6 +41,7 @@ export default function AppContextProvider({ children }: { children: ReactNode }
   const [currentQuoteForm, setCurrentQuoteForm] = useState<CurrentQuoteFormType[] | null>([
     {
       id: '1',
+      question: '1. How many pages your project will have?',
       order: 1,
       price: 900,
       value: 1,
@@ -46,10 +49,12 @@ export default function AppContextProvider({ children }: { children: ReactNode }
     },
     {
       id: '2',
+      question: '2. Which design service your company needs?',
       order: 2,
       price: 900,
       value: 1,
       type: 'radioCard',
+      name: 'designService',
       options: [
         {
           id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
@@ -76,10 +81,12 @@ export default function AppContextProvider({ children }: { children: ReactNode }
     },
     {
       id: '3',
+      question: '3. Which development service your company needs?',
       order: 3,
       price: 900,
       value: 1,
       type: 'cardRadio',
+      name: 'developmentService',
       options: [
         {
           id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
@@ -106,10 +113,12 @@ export default function AppContextProvider({ children }: { children: ReactNode }
     },
     {
       id: '4',
+      question: '4. Would you like to use animations on your website?',
       order: 4,
       price: 900,
       value: 1,
       type: 'cardRadio',
+      name: 'animations',
       options: [
         {
           id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
@@ -130,6 +139,53 @@ export default function AppContextProvider({ children }: { children: ReactNode }
           value: 'advanced',
           title: 'Advanced',
           label: 'Very unique and customised animations',
+          price: 200,
+        },
+      ],
+    },
+    {
+      id: '5',
+      question: '5. Which additional services should to be used?',
+      order: 5,
+      price: 900,
+      value: 1,
+      type: 'checkbox',
+      name: 'additionalServices',
+      options: [
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
+          value: 'Google Advertising',
+          label: 'Google Advertising',
+          price: 0,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63k8t',
+          value: 'Google Analytics',
+          label: 'Google Analytics',
+          price: 0,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63k3k',
+          value: 'Facebook Advertising',
+          label: 'Facebook Advertising',
+          price: 200,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63p3b',
+          value: 'Google Tag Manager',
+          label: 'Google Tag Manager',
+          price: 200,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63o4v',
+          value: 'Google Maps & Company',
+          label: 'Google Maps & Company',
+          price: 200,
+        },
+        {
+          id: 'a0f45312-0251-43d2-b5de-0809e6a63x89',
+          value: 'Other',
+          label: 'Other',
           price: 200,
         },
       ],
