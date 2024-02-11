@@ -58,7 +58,7 @@ export default function AppContextProvider({ children }: { children: ReactNode }
       options: [
         {
           id: 'a0f45312-0251-43d2-b5de-0809e6a63ca3',
-          value: 'design',
+          value: 'none',
           title: 'None',
           label: 'I already have a design',
           price: 0,

@@ -13,11 +13,29 @@ export default function FormFlow() {
   const { currentQuoteForm } = useAppContext()
   console.log({ currentQuoteForm })
 
-  const [cardRadioGroupValue, setCardRadioGroupValue] = useState(1)
+  const [designServiceValue, setDesignServiceValue] = useState('')
+  const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
+  const [animationsValue, setAnimationsValue] = useState('')
+  console.log({
+    designServiceValue,
+    developmentServiceValue,
+    animationsValue,
+  })
 
-  const onCardRadioGroupChange = (event: RadioChangeEvent) => {
-    console.log({ 'onCardRadioGroupChange event': event })
-    setCardRadioGroupValue(event.target.value)
+  const onOptionsChange = (event: RadioChangeEvent) => {
+    if (currentQuoteForm) {
+      switch(event.target.name) {
+        case currentQuoteForm[1].name:
+          setDesignServiceValue(event.target.value)
+          break;
+        case currentQuoteForm[2].name:
+          setDevelopmentServiceValue(event.target.value)
+          break;
+        case currentQuoteForm[3].name:
+          setAnimationsValue(event.target.value)
+          break;
+      }
+    }
   }
 
   return (
@@ -34,8 +52,8 @@ export default function FormFlow() {
           <CardRadioGroup
             name={currentQuoteForm && currentQuoteForm[1].name || ''}
             items={currentQuoteForm && currentQuoteForm[1].options || []}
-            onChange={onCardRadioGroupChange}
-            value={cardRadioGroupValue}
+            onChange={onOptionsChange}
+            value={designServiceValue}
           />
         </div>
       </FormItem>
@@ -44,8 +62,8 @@ export default function FormFlow() {
           <CardRadioGroup
             name={currentQuoteForm && currentQuoteForm[2].name || ''}
             items={currentQuoteForm && currentQuoteForm[2].options || []}
-            onChange={onCardRadioGroupChange}
-            value={cardRadioGroupValue}
+            onChange={onOptionsChange}
+            value={developmentServiceValue}
           />
         </div>
       </FormItem>
@@ -54,8 +72,8 @@ export default function FormFlow() {
           <CardRadioGroup
             name={currentQuoteForm && currentQuoteForm[3].name || ''}
             items={currentQuoteForm && currentQuoteForm[3].options || []}
-            onChange={onCardRadioGroupChange}
-            value={cardRadioGroupValue}
+            onChange={onOptionsChange}
+            value={animationsValue}
           />
         </div>
       </FormItem>

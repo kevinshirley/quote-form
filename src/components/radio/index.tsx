@@ -51,3 +51,5 @@ export const CardRadioGroup: React.FC<CardRadioGroupType> = ({
     )}
   </>
 )
+
+// Reference: https://codepen.io/dromo77/pen/ZEQWyaZ?editors=1100
