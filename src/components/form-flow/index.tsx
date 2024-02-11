@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Button, RadioChangeEvent } from 'antd'
 import Slider from '@/components/slider'
-import Card from '@/components/radio'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
@@ -40,33 +39,19 @@ export default function FormFlow() {
       </FormItem>
       <FormItem title='3. Which development service your company needs?'>
         <div className='flex flex-col items-center'>
-          <Card
-            title='New Website Development'
-            text=''
-          />
-          <Card
-            title='Existing Website Migration'
-            text=''
-          />
-          <Card
-            title='Other'
-            text=''
+          <CardRadioGroup
+            items={currentQuoteForm && currentQuoteForm[2].options || []}
+            onChange={onCardRadioGroupChange}
+            value={cardRadioGroupValue}
           />
         </div>
       </FormItem>
       <FormItem title='4. Would you like to use animations on your website?'>
         <div className='flex flex-col items-center'>
-          <Card
-            title='None'
-            text='Static page with no animations'
-          />
-          <Card
-            title='Basic'
-            text='Basic fade in / fade out animations'
-          />
-          <Card
-            title='Advanced'
-            text='Very unique and customised animations'
+          <CardRadioGroup
+            items={currentQuoteForm && currentQuoteForm[3].options || []}
+            onChange={onCardRadioGroupChange}
+            value={cardRadioGroupValue}
           />
         </div>
       </FormItem>
