@@ -14,7 +14,7 @@ export const currentQuoteFormData = [
     order: 2,
     price: 900,
     value: 1,
-    type: 'radioCard',
+    type: 'cardRadio',
     name: 'designService',
     options: [
       {

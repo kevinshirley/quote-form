@@ -7,9 +7,18 @@ import {
   useState,
   SetStateAction,
   Dispatch,
+  useEffect,
 } from 'react'
 
+import { isNil, sum } from 'lodash'
+
 import { currentQuoteFormData } from '@/context/data/quote-form'
+
+const quoteFormType = {
+  cardRadio: 'cardRadio',
+  slider: 'slider',
+  checkbox: 'checkbox',
+}
 
 interface CurrentQuoteFormOptionType {
   id: string;
@@ -28,6 +37,7 @@ export interface CurrentQuoteFormType {
   type: string;
   name?: string;
   options?: CurrentQuoteFormOptionType[];
+  answer?: string | number | CurrentQuoteFormOptionType;
 }
 
 interface AppContextProviderType {
@@ -42,6 +52,22 @@ export const AppContext = createContext<AppContextProviderType | null>(null);
 export default function AppContextProvider({ children }: { children: ReactNode }) {
   const [currentQuoteForm, setCurrentQuoteForm] = useState<CurrentQuoteFormType[] | null>(currentQuoteFormData);
   const [quoteFormPrice, setQuoteFormPrice] = useState<number | null>(0);
+
+  useEffect(() => {
+    if (currentQuoteForm) {
+      const data = currentQuoteForm && currentQuoteForm.map((item: CurrentQuoteFormType) => {
+        if (item.type === quoteFormType.slider && item.answer) {
+          return (item.answer as number) * item.price;
+        } else if (item.type === quoteFormType.cardRadio && item.answer) {
+          return (item.answer as CurrentQuoteFormOptionType).price;
+        } else if (item.type === quoteFormType.checkbox && item.answer) {
+          return 0;
+        }
+      }).filter((item: any) => !isNil(item))
+
+      setQuoteFormPrice(sum(data))
+    }
+  }, [currentQuoteForm])
 
   return (
     <AppContext.Provider
