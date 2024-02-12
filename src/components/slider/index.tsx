@@ -36,7 +36,7 @@ const CommonSlider: React.FC<CommonSliderProps> = ({
         ...updatedCurrentQuoteForm,
         {
           ...sliderItem,
-          value: value,
+          answer: value,
         },
       ].sort((a: any, b: any) => parseFloat(a.order) - parseFloat(b.order)))
     }

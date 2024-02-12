@@ -1,38 +1,85 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Dispatch, SetStateAction } from 'react'
 import { Button, RadioChangeEvent } from 'antd'
 import Slider from '@/components/slider'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
-import { useAppContext } from '@/context/app-context'
+import { useAppContext, CurrentQuoteFormType } from '@/context/app-context'
 import { CardRadioGroup } from '@/components/radio'
 
+const updateQuoteFormOptionAnswer = ({
+  currentQuoteForm,
+  id,
+  setCurrentQuoteForm,
+  event,
+}: {
+  currentQuoteForm: CurrentQuoteFormType[];
+  id: string;
+  setCurrentQuoteForm: Dispatch<SetStateAction<CurrentQuoteFormType[] | null>>;
+  event: RadioChangeEvent;
+}) => {
+  if (currentQuoteForm) {
+    const index = currentQuoteForm.findIndex((item: any) => item.id === id);
+    const updatedCurrentQuoteForm = [
+      ...currentQuoteForm.slice(0, index),
+      ...currentQuoteForm.slice(index + 1)
+    ];
+
+    setCurrentQuoteForm([
+      ...updatedCurrentQuoteForm,
+      {
+        ...currentQuoteForm[index],
+        answer: currentQuoteForm[index].options?.find(option => option.value === event.target.value),
+      },
+    ].sort((a: any, b: any) => parseFloat(a.order) - parseFloat(b.order)))
+  }
+}
+
 export default function FormFlow() {
-  const { currentQuoteForm } = useAppContext()
+  const {
+    currentQuoteForm,
+    setCurrentQuoteForm,
+  } = useAppContext()
   console.log({ currentQuoteForm })
 
   const [designServiceValue, setDesignServiceValue] = useState('')
   const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
   const [animationsValue, setAnimationsValue] = useState('')
-  console.log({
-    designServiceValue,
-    developmentServiceValue,
-    animationsValue,
-  })
 
   const onOptionsChange = (event: RadioChangeEvent) => {
     if (currentQuoteForm) {
       switch(event.target.name) {
         case currentQuoteForm[1].name:
           setDesignServiceValue(event.target.value)
+
+          updateQuoteFormOptionAnswer({
+            currentQuoteForm,
+            setCurrentQuoteForm,
+            event,
+            id: '2',
+          })
           break;
         case currentQuoteForm[2].name:
           setDevelopmentServiceValue(event.target.value)
+
+          updateQuoteFormOptionAnswer({
+            currentQuoteForm,
+            setCurrentQuoteForm,
+            event,
+            id: '3',
+          })
           break;
         case currentQuoteForm[3].name:
           setAnimationsValue(event.target.value)
+
+          updateQuoteFormOptionAnswer({
+            currentQuoteForm,
+            setCurrentQuoteForm,
+            event,
+            id: '4',
+          })
           break;
       }
     }
