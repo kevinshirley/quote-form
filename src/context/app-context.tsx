@@ -14,10 +14,18 @@ import { isNil, sum } from 'lodash'
 
 import { currentQuoteFormData } from '@/context/data/quote-form'
 
-const quoteFormType = {
+export const quoteFormType = {
   cardRadio: 'cardRadio',
-  slider: 'slider',
   checkbox: 'checkbox',
+  slider: 'slider',
+  title: 'title',
+  contactFirstName: 'contactFirstName',
+  contactLastName: 'contactLastName',
+  contactEmail: 'contactEmail',
+  contactPhoneNumber: 'contactPhoneNumber',
+  contactCompanyName: 'contactCompanyName',
+  contactCompanyWebsite: 'contactCompanyWebsite',
+  contactMessage: 'contactMessage',
 }
 
 export interface CurrentQuoteFormOptionType {
