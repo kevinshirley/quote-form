@@ -57,8 +57,8 @@ export default function AppContextProvider({ children }: { children: ReactNode }
     if (currentQuoteForm) {
       const data = currentQuoteForm.map((item: CurrentQuoteFormType) => {
         if (item.type === quoteFormType.slider && item.answer) {
+          // The price becomes 300 on the 4th page and beyond
           if ((item.answer as number) >= 4) {
-            // The price becomes 300 on the 4th page and beyond
             let reduced = ((item.answer as number) - 3) * 300;
             let actual = 3 * item.price;
             return reduced + actual;

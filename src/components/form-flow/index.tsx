@@ -171,7 +171,15 @@ export default function FormFlow() {
         quoteFormItem={currentQuoteForm && currentQuoteForm[4]}
         onChange={onCheckboxChange}
       />
-      <ContactInformation />
+      <ContactInformation
+        firstNameItem={currentQuoteForm && currentQuoteForm[6]}
+        lastNameItem={currentQuoteForm && currentQuoteForm[7]}
+        emailItem={currentQuoteForm && currentQuoteForm[8]}
+        phoneNumberItem={currentQuoteForm && currentQuoteForm[9]}
+        companyNameItem={currentQuoteForm && currentQuoteForm[10]}
+        companyWebsiteItem={currentQuoteForm && currentQuoteForm[11]}
+        messageItem={currentQuoteForm && currentQuoteForm[12]}
+      />
       <FormItem>
         <Button
           className='quote-form-submut-btn w-full border-slate-900 border-2 text-slate-900 bg-slate-900 text-white h-14'
