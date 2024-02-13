@@ -8,6 +8,7 @@ import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
 import { useAppContext, CurrentQuoteFormType, CurrentQuoteFormOptionType } from '@/context/app-context'
 import { CardRadioGroup } from '@/components/radio'
+import { submitForm } from '@/app/actions'
 
 const updateQuoteFormOptionAnswer = ({
   currentQuoteForm,
@@ -75,6 +76,7 @@ export default function FormFlow() {
   const [designServiceValue, setDesignServiceValue] = useState('')
   const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
   const [animationsValue, setAnimationsValue] = useState('')
+  const [sliderValue, setSliderValue] = useState(0)
 
   const onOptionsChange = (event: RadioChangeEvent) => {
     if (currentQuoteForm) {
@@ -129,12 +131,14 @@ export default function FormFlow() {
   }
 
   return (
-    <section className='relative pt-6 pb-16'>
+    <form className='relative pt-6 pb-16' action={submitForm}>
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
         <Slider
           min={1}
           max={20}
           sliderItem={currentQuoteForm && currentQuoteForm[0]}
+          setSliderValue={setSliderValue}
+          sliderValue={sliderValue}
         />
       </FormItem>
       <FormItem title={currentQuoteForm && currentQuoteForm[1].question || ''}>
@@ -180,14 +184,16 @@ export default function FormFlow() {
         companyWebsiteItem={currentQuoteForm && currentQuoteForm[11]}
         messageItem={currentQuoteForm && currentQuoteForm[12]}
       />
+      <input type='hidden' name='currentQuoteForm' value={JSON.stringify(currentQuoteForm)} />
       <FormItem>
         <Button
           className='quote-form-submut-btn w-full border-slate-900 border-2 text-slate-900 bg-slate-900 text-white h-14'
           size='large'
+          htmlType='submit'
         >
           Submit
         </Button>
       </FormItem>
-    </section>
+    </form>
   );
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Slider } from 'antd';
 import { useAppContext } from '@/context/app-context'
 
@@ -8,22 +8,24 @@ interface CommonSliderProps {
   max: number;
   min: number;
   sliderItem: any;
+  setSliderValue: Dispatch<SetStateAction<number>>;
+  sliderValue: number;
 }
 
 const CommonSlider: React.FC<CommonSliderProps> = ({
   min,
   max,
   sliderItem,
+  setSliderValue,
+  sliderValue,
 }) => {
-  const [value, setValue] = useState(0);
-
   const {
     setCurrentQuoteForm,
     currentQuoteForm,
   } = useAppContext()
 
   const onChange = (value: any) => {
-    setValue(value)
+    setSliderValue(value)
 
     if (currentQuoteForm) {
       const index = currentQuoteForm.findIndex((item: any) => item.id === '1');
@@ -46,7 +48,7 @@ const CommonSlider: React.FC<CommonSliderProps> = ({
     <Slider
       defaultValue={1}
       onChange={onChange}
-      value={value}
+      value={sliderValue}
       min={min}
       max={max}
     />
