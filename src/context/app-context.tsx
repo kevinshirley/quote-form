@@ -20,7 +20,7 @@ const quoteFormType = {
   checkbox: 'checkbox',
 }
 
-interface CurrentQuoteFormOptionType {
+export interface CurrentQuoteFormOptionType {
   id: string;
   value: string | number | boolean;
   title?: string;
@@ -37,7 +37,7 @@ export interface CurrentQuoteFormType {
   type: string;
   name?: string;
   options?: CurrentQuoteFormOptionType[];
-  answer?: string | number | CurrentQuoteFormOptionType;
+  answer?: string | number | CurrentQuoteFormOptionType | CurrentQuoteFormOptionType[];
 }
 
 interface AppContextProviderType {
@@ -58,10 +58,11 @@ export default function AppContextProvider({ children }: { children: ReactNode }
       const data = currentQuoteForm && currentQuoteForm.map((item: CurrentQuoteFormType) => {
         if (item.type === quoteFormType.slider && item.answer) {
           return (item.answer as number) * item.price;
-        } else if (item.type === quoteFormType.cardRadio && item.answer) {
-          return (item.answer as CurrentQuoteFormOptionType).price;
+        } else if (item.type === quoteFormType.cardRadio && item.answer && currentQuoteForm[0].answer) {
+          return (item.answer as CurrentQuoteFormOptionType).price * (currentQuoteForm[0].answer as number);
         } else if (item.type === quoteFormType.checkbox && item.answer) {
-          return 0;
+          const filteredCheckboxAnswers = (item.answer as CurrentQuoteFormOptionType[]).map((checkboxItem: CurrentQuoteFormOptionType) => checkboxItem.price);
+          return sum(filteredCheckboxAnswers);
         }
       }).filter((item: any) => !isNil(item))
 

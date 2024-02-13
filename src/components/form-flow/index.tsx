@@ -6,7 +6,7 @@ import Slider from '@/components/slider'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
-import { useAppContext, CurrentQuoteFormType } from '@/context/app-context'
+import { useAppContext, CurrentQuoteFormType, CurrentQuoteFormOptionType } from '@/context/app-context'
 import { CardRadioGroup } from '@/components/radio'
 
 const updateQuoteFormOptionAnswer = ({
@@ -32,6 +32,34 @@ const updateQuoteFormOptionAnswer = ({
       {
         ...currentQuoteForm[index],
         answer: currentQuoteForm[index].options?.find(option => option.value === event.target.value),
+      },
+    ].sort((a: any, b: any) => parseFloat(a.order) - parseFloat(b.order)))
+  }
+}
+
+const updateQuoteFormCheckboxAnswer = ({
+  currentQuoteForm,
+  id,
+  setCurrentQuoteForm,
+  checkboxAnswers,
+}: {
+  currentQuoteForm: CurrentQuoteFormType[];
+  id: string;
+  setCurrentQuoteForm: Dispatch<SetStateAction<CurrentQuoteFormType[] | null>>;
+  checkboxAnswers: CurrentQuoteFormOptionType[];
+}) => {
+  if (currentQuoteForm) {
+    const index = currentQuoteForm.findIndex((item: any) => item.id === id);
+    const updatedCurrentQuoteForm = [
+      ...currentQuoteForm.slice(0, index),
+      ...currentQuoteForm.slice(index + 1)
+    ];
+
+    setCurrentQuoteForm([
+      ...updatedCurrentQuoteForm,
+      {
+        ...currentQuoteForm[index],
+        answer: checkboxAnswers,
       },
     ].sort((a: any, b: any) => parseFloat(a.order) - parseFloat(b.order)))
   }
@@ -85,6 +113,21 @@ export default function FormFlow() {
     }
   }
 
+  const onCheckboxChange = (selections: string[]) => {
+    if (currentQuoteForm) {
+      const filtered = currentQuoteForm[4].options?.filter((item: CurrentQuoteFormOptionType) => selections.includes((item.value as string)))
+
+      if (filtered) {
+        updateQuoteFormCheckboxAnswer({
+          currentQuoteForm,
+          setCurrentQuoteForm,
+          id: '5',
+          checkboxAnswers: filtered,
+        })
+      }
+    }
+  }
+
   return (
     <section className='relative pt-6 pb-16'>
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
@@ -124,7 +167,10 @@ export default function FormFlow() {
           />
         </div>
       </FormItem>
-      <AdditionalServices quoteFormItem={currentQuoteForm && currentQuoteForm[4]} />
+      <AdditionalServices
+        quoteFormItem={currentQuoteForm && currentQuoteForm[4]}
+        onChange={onCheckboxChange}
+      />
       <ContactInformation />
       <FormItem>
         <Button

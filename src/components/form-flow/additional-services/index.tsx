@@ -6,19 +6,19 @@ import { CurrentQuoteFormType } from '@/context/app-context'
 
 interface AdditionalServicesType {
   quoteFormItem: CurrentQuoteFormType | null;
+  onChange: (selections: string[]) => void;
 }
 
-const AdditionalServices: React.FC<AdditionalServicesType> = ({ quoteFormItem }) => {
-  const onAdditionalServiceChange: any = (e: any) => {
-    console.log('onAdditionalServiceChange: ', e)
-  }
-
+const AdditionalServices: React.FC<AdditionalServicesType> = ({
+  quoteFormItem,
+  onChange,
+}) => {
   return (
     <FormItem title={quoteFormItem?.question || ''}>
       <CheckboxGroup
         className='flex flex-col grow common-checkbox'
         options={quoteFormItem && quoteFormItem?.options || []}
-        onChange={onAdditionalServiceChange}
+        onChange={onChange}
         name={quoteFormItem?.name || ''}
       />
     </FormItem>
