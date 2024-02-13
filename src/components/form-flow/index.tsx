@@ -80,7 +80,7 @@ export default function FormFlow() {
   const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
   const [animationsValue, setAnimationsValue] = useState('')
   const [sliderValue, setSliderValue] = useState(0)
-  const [formResult, setFormResult] = useState(false)
+  const [formResult, setFormResult] = useState<boolean|null>(false)
   const { pending } = useFormStatus()
   const ref = useRef<HTMLFormElement>(null)
 
