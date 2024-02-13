@@ -34,6 +34,7 @@ export async function submitForm(formData: FormData) {
     
     // send mail via nodemailer
     const sendMailViaNodeMailer = (mailMsg: any) => {
+      console.log('sendMailViaNodeMailer');
       nodeMailTransporter.sendMail(mailMsg, function(err, data) {
         if (err) {
           console.log(err);
@@ -114,8 +115,11 @@ export async function submitForm(formData: FormData) {
     sendMailViaNodeMailer(contactMsg)
 
     console.log('Sending email')
-    return {
-      success: result
+
+    if (result !== null) {
+      return {
+        success: result
+      }
     }
   } catch(error) {
     console.log({ error })

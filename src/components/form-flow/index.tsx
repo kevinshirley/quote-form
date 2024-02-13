@@ -150,7 +150,9 @@ export default function FormFlow() {
         const result = await submitForm(formData)
         console.log({ result })
         ref.current?.reset();
-        setFormResult(result.success)
+        if (result !== undefined) {
+          setFormResult(result.success)
+        }
       }}
     >
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
