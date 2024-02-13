@@ -55,9 +55,16 @@ export default function AppContextProvider({ children }: { children: ReactNode }
 
   useEffect(() => {
     if (currentQuoteForm) {
-      const data = currentQuoteForm && currentQuoteForm.map((item: CurrentQuoteFormType) => {
+      const data = currentQuoteForm.map((item: CurrentQuoteFormType) => {
         if (item.type === quoteFormType.slider && item.answer) {
-          return (item.answer as number) * item.price;
+          if ((item.answer as number) >= 4) {
+            // The price becomes 300 on the 4th page and beyond
+            let reduced = ((item.answer as number) - 3) * 300;
+            let actual = 3 * item.price;
+            return reduced + actual;
+          } else {
+            return (item.answer as number) * item.price;
+          }
         } else if (item.type === quoteFormType.cardRadio && item.answer && currentQuoteForm[0].answer) {
           return (item.answer as CurrentQuoteFormOptionType).price * (currentQuoteForm[0].answer as number);
         } else if (item.type === quoteFormType.checkbox && item.answer) {
