@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, Dispatch, SetStateAction } from 'react'
+import { useState, Dispatch, SetStateAction, useEffect, useRef } from 'react'
 import { Button, RadioChangeEvent } from 'antd'
+import { useFormStatus } from 'react-dom'
+import { redirect } from 'next/navigation'
 import Slider from '@/components/slider'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
@@ -70,6 +72,7 @@ export default function FormFlow() {
   const {
     currentQuoteForm,
     setCurrentQuoteForm,
+    quoteFormPrice,
   } = useAppContext()
   console.log({ currentQuoteForm })
 
@@ -77,6 +80,15 @@ export default function FormFlow() {
   const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
   const [animationsValue, setAnimationsValue] = useState('')
   const [sliderValue, setSliderValue] = useState(0)
+  const [formResult, setFormResult] = useState(false)
+  const { pending } = useFormStatus()
+  const ref = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (formResult) {
+      redirect('/success')
+    }
+  }, [formResult])
 
   const onOptionsChange = (event: RadioChangeEvent) => {
     if (currentQuoteForm) {
@@ -131,7 +143,16 @@ export default function FormFlow() {
   }
 
   return (
-    <form className='relative pt-6 pb-16' action={submitForm}>
+    <form
+      ref={ref}
+      className='relative pt-6 pb-16'
+      action={async (formData) => {
+        const result = await submitForm(formData)
+        console.log({ result })
+        ref.current?.reset();
+        setFormResult(result.success)
+      }}
+    >
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
         <Slider
           min={1}
@@ -185,11 +206,13 @@ export default function FormFlow() {
         messageItem={currentQuoteForm && currentQuoteForm[12]}
       />
       <input type='hidden' name='currentQuoteForm' value={JSON.stringify(currentQuoteForm)} />
+      <input type='hidden' name='quoteFormPrice' value={JSON.stringify(quoteFormPrice)} />
       <FormItem>
         <Button
           className='quote-form-submut-btn w-full border-slate-900 border-2 text-slate-900 bg-slate-900 text-white h-14'
           size='large'
           htmlType='submit'
+          aria-disabled={pending}
         >
           Submit
         </Button>
