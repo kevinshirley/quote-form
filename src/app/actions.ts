@@ -13,6 +13,7 @@ const TRANSPORTER_PASSWORD = 'Canada21Pay'
 
 export async function submitForm(formData: FormData) {
   try {
+    let result = null;
     const form: any = Object.fromEntries(formData)
 
     const currentQuoteForm: CurrentQuoteFormType[] = JSON.parse(form.currentQuoteForm)
@@ -36,8 +37,10 @@ export async function submitForm(formData: FormData) {
       nodeMailTransporter.sendMail(mailMsg, function(err, data) {
         if (err) {
           console.log(err);
+          result = false;
         } else {
           console.log('Email Sent Successfully');
+          result = true;
         }
       });
     }
@@ -112,7 +115,7 @@ export async function submitForm(formData: FormData) {
 
     console.log('Sending email')
     return {
-      success: true
+      success: result
     }
   } catch(error) {
     console.log({ error })
