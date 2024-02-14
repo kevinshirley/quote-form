@@ -3,7 +3,7 @@
 import { useState, Dispatch, SetStateAction, useEffect, useRef } from 'react'
 import { Button, RadioChangeEvent } from 'antd'
 import { useFormStatus } from 'react-dom'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Slider from '@/components/slider'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
@@ -11,6 +11,7 @@ import ContactInformation from '@/components/form-flow/contact-information'
 import { useAppContext, CurrentQuoteFormType, CurrentQuoteFormOptionType } from '@/context/app-context'
 import { CardRadioGroup } from '@/components/radio'
 import { submitForm } from '@/app/actions'
+import { post } from '@/utils/fetch'
 
 const updateQuoteFormOptionAnswer = ({
   currentQuoteForm,
@@ -83,10 +84,11 @@ export default function FormFlow() {
   const [formResult, setFormResult] = useState<boolean|null>(false)
   const { pending } = useFormStatus()
   const ref = useRef<HTMLFormElement>(null)
+  const router = useRouter()
 
   useEffect(() => {
     if (formResult) {
-      redirect('/success')
+      router.push('success')
     }
   }, [formResult])
 
@@ -142,18 +144,27 @@ export default function FormFlow() {
     }
   }
 
+  const onSubmit = async (event: any) => {
+    event.preventDefault();
+
+    const result = await post('/api/form/submit', {
+      currentQuoteForm: currentQuoteForm,
+      quoteFormPrice: quoteFormPrice,
+    })
+
+    console.log({ result, event })
+
+    if (result.success) {
+      router.push('success')
+    } else {
+      console.log('Error onSubmit')
+    }
+  }
+
   return (
     <form
       ref={ref}
       className='relative pt-6 pb-16'
-      action={async (formData) => {
-        const result = await submitForm(formData)
-        console.log({ result })
-        ref.current?.reset();
-        if (result !== undefined) {
-          setFormResult(result.success)
-        }
-      }}
     >
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
         <Slider
@@ -215,6 +226,7 @@ export default function FormFlow() {
           size='large'
           htmlType='submit'
           aria-disabled={pending}
+          onClick={onSubmit}
         >
           Submit
         </Button>
