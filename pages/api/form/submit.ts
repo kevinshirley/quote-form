@@ -41,13 +41,17 @@ export default function handler(
     // send mail via nodemailer
     const sendMailViaNodeMailer = async (mailMsg: any) => {
       console.log('sendMailViaNodeMailer')
-      await nodeMailTransporter.sendMail(mailMsg, function(err: any, data: any) {
-        if (err) {
-          console.log(err);
-          res.status(400).send({ success: false, message: 'Error: While form submit by email' })
-        } else {
-          console.log('Email Sent Successfully')
-        }
+      await new Promise((resolve, reject) => {
+        nodeMailTransporter.sendMail(mailMsg, function(err: any, data: any) {
+          if (err) {
+            console.error(err)
+            reject(err)
+            res.status(400).send({ success: false, message: 'Error: While form submit by email' })
+          } else {
+            resolve(data)
+            console.log('Email Sent Successfully')
+          }
+        });
       });
     }
 
