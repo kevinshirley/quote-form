@@ -1,16 +1,24 @@
 'use client'
 
-import { useState, Dispatch, SetStateAction, useEffect, useRef } from 'react'
+import { useState, Dispatch, SetStateAction } from 'react'
 import { Button, RadioChangeEvent } from 'antd'
 import { useFormStatus } from 'react-dom'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { isEmpty, isNil } from 'lodash'
 import Slider from '@/components/slider'
 import FormItem from '@/components/form-item'
 import AdditionalServices from '@/components/form-flow/additional-services'
 import ContactInformation from '@/components/form-flow/contact-information'
 import { useAppContext, CurrentQuoteFormType, CurrentQuoteFormOptionType } from '@/context/app-context'
 import { CardRadioGroup } from '@/components/radio'
-import { submitForm } from '@/app/actions'
+// import { submitForm } from '@/app/actions'
+import { post } from '@/utils/fetch'
+import toast, { APPEARANCE } from '@/utils/toast'
+
+// type ResultType = {
+//   success: boolean;
+//   message: string;
+// } | undefined;
 
 const updateQuoteFormOptionAnswer = ({
   currentQuoteForm,
@@ -80,16 +88,9 @@ export default function FormFlow() {
   const [developmentServiceValue, setDevelopmentServiceValue] = useState('')
   const [animationsValue, setAnimationsValue] = useState('')
   const [sliderValue, setSliderValue] = useState(0)
-  const [formResult, setFormResult] = useState<boolean|null>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const { pending } = useFormStatus()
-  const ref = useRef<HTMLFormElement>(null)
   const router = useRouter()
-
-  useEffect(() => {
-    if (formResult) {
-      router.push('success')
-    }
-  }, [formResult])
 
   const onOptionsChange = (event: RadioChangeEvent) => {
     if (currentQuoteForm) {
@@ -143,18 +144,39 @@ export default function FormFlow() {
     }
   }
 
+  const onSubmit = async (event: any) => {
+    event.preventDefault();
+    setLoading(true)
+
+    const result = await post('/api/form/submit', {
+      currentQuoteForm: currentQuoteForm,
+      quoteFormPrice: quoteFormPrice,
+    })
+
+    console.log({ result, event })
+
+    if (!isEmpty(result) && !isNil(result)) {
+      if (result.success) {
+        router.push('/success')
+      } else {
+        console.log('Error - 1')
+        toast({
+          appearance: APPEARANCE.ERROR,
+          message: result.message,
+        })
+      }
+    } else {
+      console.log('Error - 2')
+      toast({
+        appearance: APPEARANCE.ERROR,
+        message: 'Error',
+      })
+    }
+    setLoading(false)
+  }
+
   return (
-    <form
-      ref={ref}
-      className='relative pt-6 pb-16'
-      action={async (formData) => {
-        const result = await submitForm(formData)
-        console.log({ result })
-        if (result) {
-          setFormResult(result.success)
-        }
-      }}
-    >
+    <form className='relative pt-6 pb-16'>
       <FormItem title={currentQuoteForm && currentQuoteForm[0].question || ''}>
         <Slider
           min={1}
@@ -215,6 +237,8 @@ export default function FormFlow() {
           size='large'
           htmlType='submit'
           aria-disabled={pending}
+          onClick={onSubmit}
+          loading={loading}
         >
           Submit
         </Button>

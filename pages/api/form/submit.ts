@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { isNil, isEmpty } from 'lodash'
 const nodemailer = require("nodemailer")
-import { CurrentQuoteFormType, CurrentQuoteFormOptionType, quoteFormType } from '@/context/app-context'
+import { CurrentQuoteFormType, CurrentQuoteFormOptionType } from '@/context/app-context'
 
 const companyName = 'Softelo'
 const companyEmail = 'kevin@softelogroup.com'
@@ -149,19 +149,6 @@ export default async function handler(
     })
     
     // send mail via nodemailer
-    const sendMailViaNodeMailer = async (mailMsg: any) => {
-      console.log('sendMailViaNodeMailer')
-      await nodeMailTransporter.sendMail(mailMsg, function(err: any, data: any) {
-        if (err) {
-          console.log(err);
-          res.status(400).send({ success: false, message: 'Error: While form submit by email' })
-        } else {
-          console.log('Email Sent Successfully');
-          res.status(200).send({ success: true, message: 'Form submitted by email' })
-        }
-      })
-    }
-
     const companyMsg = {
       from: companyName + ' <' + TRANSPORTER_EMAIL + '>',
       to: companyEmail,
