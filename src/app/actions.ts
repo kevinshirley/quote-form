@@ -1,7 +1,7 @@
 'use server'
 
 import { isNil, isEmpty } from 'lodash'
-import nodemailer from 'nodemailer'
+const nodemailer = require("nodemailer")
 import { CurrentQuoteFormType, CurrentQuoteFormOptionType, quoteFormType } from '@/context/app-context'
 
 const companyName = 'Softelo'
@@ -13,7 +13,6 @@ const TRANSPORTER_PASSWORD = 'Canada21Pay'
 
 export async function submitForm(formData: FormData) {
   try {
-    let result = null;
     const form: any = Object.fromEntries(formData)
 
     const currentQuoteForm: CurrentQuoteFormType[] = JSON.parse(form.currentQuoteForm)
@@ -31,20 +30,6 @@ export async function submitForm(formData: FormData) {
         rejectUnauthorized: false
       },
     })
-    
-    // send mail via nodemailer
-    const sendMailViaNodeMailer = (mailMsg: any) => {
-      console.log('sendMailViaNodeMailer');
-      nodeMailTransporter.sendMail(mailMsg, function(err, data) {
-        if (err) {
-          console.log(err);
-          result = false;
-        } else {
-          console.log('Email Sent Successfully');
-          result = true;
-        }
-      });
-    }
 
     console.log({ 'server currentQuoteForm': currentQuoteForm })
 
@@ -101,7 +86,22 @@ export async function submitForm(formData: FormData) {
       html: companyHtmlEmail,
     }
 
-    sendMailViaNodeMailer(companyMsg)
+    await new Promise((resolve, reject) => {
+      console.log('sendMailViaNodeMailer')
+      nodeMailTransporter.sendMail(companyMsg, function(err: any, data: any) {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return {
+            success: false,
+            message: 'Error: While form submit by email',
+          }
+        } else {
+          resolve(data)
+          console.log('Email Sent Successfully')
+        }
+      });
+    })
 
     // Send email to contact
     const contactMsg = {
@@ -112,15 +112,26 @@ export async function submitForm(formData: FormData) {
       html: contactHtmlEmail,
     }
 
-    sendMailViaNodeMailer(contactMsg)
+    await new Promise((resolve, reject) => {
+      console.log('sendMailViaNodeMailer')
+      nodeMailTransporter.sendMail(contactMsg, function(err: any, data: any) {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return {
+            success: false,
+            message: 'Error: While form submit by email',
+          }
+        } else {
+          resolve(data)
+          console.log('Email Sent Successfully')
+        }
+      });
+    })
 
     console.log('Sending email')
 
-    if (result !== null) {
-      return {
-        success: result
-      }
-    }
+    return { success: true, message: 'Form submitted by email' }
   } catch(error) {
     console.log({ error })
     const nodeMailTransporter = nodemailer.createTransport({
@@ -135,17 +146,6 @@ export async function submitForm(formData: FormData) {
         rejectUnauthorized: false
       },
     })
-    
-    // send mail via nodemailer
-    const sendMailViaNodeMailer = (mailMsg: any) => {
-      nodeMailTransporter.sendMail(mailMsg, function(err, data) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Email Sent Successfully');
-        }
-      });
-    }
 
     const companyMsg = {
       from: companyName + ' <' + TRANSPORTER_EMAIL + '>',
@@ -155,10 +155,21 @@ export async function submitForm(formData: FormData) {
       html: 'Error in the Form Quote `submitForm` function',
     }
 
-    sendMailViaNodeMailer(companyMsg)
-
-    return {
-      success: false
-    }
+    await new Promise((resolve, reject) => {
+      console.log('sendMailViaNodeMailer')
+      nodeMailTransporter.sendMail(companyMsg, function(err: any, data: any) {
+        if (err) {
+          console.error(err)
+          reject(err)
+        } else {
+          resolve(data)
+          console.log('Email Sent Successfully')
+        }
+      });
+      return {
+        success: false,
+        message: 'Error: While form submit by email',
+      }
+    })
   }
 }
