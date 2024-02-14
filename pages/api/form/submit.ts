@@ -15,7 +15,7 @@ type ResponseData = {
   success: boolean
 }
  
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
@@ -39,21 +39,21 @@ export default function handler(
     })
     
     // send mail via nodemailer
-    const sendMailViaNodeMailer = async (mailMsg: any) => {
-      console.log('sendMailViaNodeMailer')
-      await new Promise((resolve, reject) => {
-        nodeMailTransporter.sendMail(mailMsg, function(err: any, data: any) {
-          if (err) {
-            console.error(err)
-            reject(err)
-            res.status(400).send({ success: false, message: 'Error: While form submit by email' })
-          } else {
-            resolve(data)
-            console.log('Email Sent Successfully')
-          }
-        });
-      });
-    }
+    // const sendMailViaNodeMailer = async (mailMsg: any) => {
+    //   console.log('sendMailViaNodeMailer')
+    //   await new Promise((resolve, reject) => {
+    //     nodeMailTransporter.sendMail(mailMsg, function(err: any, data: any) {
+    //       if (err) {
+    //         console.error(err)
+    //         reject(err)
+    //         res.status(400).send({ success: false, message: 'Error: While form submit by email' })
+    //       } else {
+    //         resolve(data)
+    //         console.log('Email Sent Successfully')
+    //       }
+    //     });
+    //   });
+    // }
 
     console.log({ 'server currentQuoteForm': currentQuoteForm })
 
@@ -110,7 +110,19 @@ export default function handler(
       html: companyHtmlEmail,
     }
 
-    sendMailViaNodeMailer(companyMsg)
+    await new Promise((resolve, reject) => {
+      console.log('sendMailViaNodeMailer')
+      nodeMailTransporter.sendMail(companyMsg, function(err: any, data: any) {
+        if (err) {
+          console.error(err)
+          reject(err)
+          res.status(400).send({ success: false, message: 'Error: While form submit by email' })
+        } else {
+          resolve(data)
+          console.log('Email Sent Successfully')
+        }
+      });
+    })
 
     // Send email to contact
     const contactMsg = {
@@ -121,7 +133,19 @@ export default function handler(
       html: contactHtmlEmail,
     }
 
-    sendMailViaNodeMailer(contactMsg)
+    await new Promise((resolve, reject) => {
+      console.log('sendMailViaNodeMailer')
+      nodeMailTransporter.sendMail(contactMsg, function(err: any, data: any) {
+        if (err) {
+          console.error(err)
+          reject(err)
+          res.status(400).send({ success: false, message: 'Error: While form submit by email' })
+        } else {
+          resolve(data)
+          console.log('Email Sent Successfully')
+        }
+      });
+    })
 
     console.log('Sending email')
 
