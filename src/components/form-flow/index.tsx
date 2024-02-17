@@ -14,6 +14,7 @@ import { CardRadioGroup } from '@/components/radio'
 // import { submitForm } from '@/app/actions'
 import { post } from '@/utils/fetch'
 import toast, { APPEARANCE } from '@/utils/toast'
+import { onValidateFormFlow } from '@/components/form-flow/utils'
 
 // type ResultType = {
 //   success: boolean;
@@ -148,31 +149,46 @@ export default function FormFlow() {
     event.preventDefault();
     setLoading(true)
 
-    const result = await post('/api/form/submit', {
-      currentQuoteForm: currentQuoteForm,
-      quoteFormPrice: quoteFormPrice,
-    })
+    if (currentQuoteForm) {
+      const isValid: any = onValidateFormFlow(currentQuoteForm)
 
-    console.log({ result, event })
+      if (isValid && !isValid.success) {
+        setLoading(false)
 
-    if (!isEmpty(result) && !isNil(result)) {
-      if (result.success) {
-        router.push('/success')
-      } else {
-        console.log('Error - 1')
         toast({
           appearance: APPEARANCE.ERROR,
-          message: result.message,
+          message: isValid.message,
+        })
+
+        return
+      }
+
+      const result = await post('/api/form/submit', {
+        currentQuoteForm,
+        quoteFormPrice,
+      })
+
+      console.log({ result, event })
+
+      if (!isEmpty(result) && !isNil(result)) {
+        if (result.success) {
+          router.push('/success')
+        } else {
+          console.log('Error - 1')
+          toast({
+            appearance: APPEARANCE.ERROR,
+            message: result.message,
+          })
+        }
+      } else {
+        console.log('Error - 2')
+        toast({
+          appearance: APPEARANCE.ERROR,
+          message: 'Error',
         })
       }
-    } else {
-      console.log('Error - 2')
-      toast({
-        appearance: APPEARANCE.ERROR,
-        message: 'Error',
-      })
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (

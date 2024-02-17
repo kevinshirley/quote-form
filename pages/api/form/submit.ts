@@ -38,7 +38,7 @@ export default async function handler(
       },
     })
 
-    console.log({ 'server currentQuoteForm': currentQuoteForm })
+    console.log('server currentQuoteForm: ', currentQuoteForm)
 
     // Building email template
     let companyHtmlEmail;
@@ -53,16 +53,16 @@ export default async function handler(
       detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<div style="font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB; margin: 25px 0;"></div>';
 
       currentQuoteForm.map(answerItem => {
-        if (answerItem.type === 'checkbox') {
+        if (answerItem.type === 'checkbox' && !isNil(answerItem.answer) && !isEmpty(answerItem.answer)) {
           detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li style="font-weight: bolder; margin-bottom: 10px;">' + answerItem.question + '</li>';
 
           {(answerItem.answer as CurrentQuoteFormOptionType[])?.map(option => {
             detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li>' + option?.label + '</li>';
           })}
           detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<div style="font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB; margin: 25px 0;"></div>';
-        } else if (answerItem.type === 'cardRadio') {
+        } else if (answerItem.type === 'cardRadio' && !isNil(answerItem.answer) && !isEmpty(answerItem.answer)) {
           detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li style="font-weight: bolder; margin-bottom: 10px;">' + answerItem.question + '</li>';
-          detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li>' + (answerItem.answer as CurrentQuoteFormOptionType)?.title + '</li>';
+          detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li>' + (answerItem?.answer as CurrentQuoteFormOptionType)?.title + '</li>';
           detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<div style="font-size: 1px; line-height: 1px; border-top: 1px solid #BBBBBB; margin: 25px 0;"></div>';
         } else {
           detailedAnswersHtmlEmail = detailedAnswersHtmlEmail + '<li style="font-weight: bolder; margin-bottom: 10px;">' + answerItem.question + '</li>';
@@ -172,3 +172,5 @@ export default async function handler(
     })
   }
 }
+
+// Reference: https://stackoverflow.com/questions/73295705/why-nodemailer-is-working-locally-but-not-in-production

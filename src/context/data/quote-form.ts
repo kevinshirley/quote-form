@@ -6,6 +6,7 @@ export const currentQuoteFormData = [
     price: 900,
     value: 1,
     type: 'slider',
+    name: 'pageNumber',
     answer: '',
   },
   {
