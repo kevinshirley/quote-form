@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-2xl font-bold text-white mb-4">FormBuilder</h3>
             <p className="text-gray-400 mb-4">
-              Create beautiful forms in minutes. No coding required.
+              Create quote forms in minutes. No coding required.
             </p>
             <Button className='bg-violet-400 text-white border-violet-400'>Get Started Free</Button>
           </div>
@@ -33,7 +33,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
-          <p>© {year} FormBuilder. All rights reserved.</p>
+          <p>© {year} <a href="https://kevinshirley.com" target="_blank" className="hover:text-white transition-colors">kevinshirley.com</a> All rights reserved.</p>
         </div>
       </div>
     </footer>
