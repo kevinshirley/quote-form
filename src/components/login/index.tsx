@@ -4,16 +4,40 @@ import { useState } from "react";
 import { Input, Button } from 'antd';
 import Link from "next/link";
 import { LogIn, Lock, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import InputWrapper from '@/components/form-flow/contact-information/input-wrapper';
 
+interface UserType {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
+	const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic
-    console.log("Login attempt with:", { email, password });
+    
+		const users = localStorage.getItem("users");
+
+    if (users) {
+      const parsedUsers = JSON.parse(users);
+      
+      const userExist = parsedUsers.find((user: UserType) => user.email === email);
+
+      if (userExist) {
+        router.push("/dashboard");
+				localStorage.setItem("user", JSON.stringify({ email, password }));
+      } else {
+        toast.error("No user created with this information listed.");
+      }
+    } else {
+      toast.error("No user created with this information.");
+    }
   };
 
   return (
@@ -58,7 +82,7 @@ const Login = () => {
             </div>
           </div>
 
-          <Button className="w-full bg-violet-400 text-white hover:bg-primary/90">
+          <Button className="w-full bg-violet-400 text-white hover:bg-primary/90"  htmlType="submit">
             <LogIn className="mr-2 h-4 w-4" /> Sign in
           </Button>
         </form>
