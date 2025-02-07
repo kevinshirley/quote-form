@@ -65,7 +65,7 @@ const Login = () => {
 
         <div className="mt-4 text-center space-y-2">
 					<p className="text-sm text-gray-600 mb-6">
-            Already have an account?{" "}
+            {"Already have an account? "}
             <Link className='text-violet-400 hover:text-primary/90' href='/login'>
 							Sign in
 						</Link>
