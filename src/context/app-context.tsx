@@ -48,11 +48,17 @@ export interface CurrentQuoteFormType {
   answer?: string | number | CurrentQuoteFormOptionType | CurrentQuoteFormOptionType[];
 }
 
+interface LoggedInUserType {
+  email: string;
+  password: string;
+}
+
 interface AppContextProviderType {
   currentQuoteForm: CurrentQuoteFormType[] | null;
   setCurrentQuoteForm: Dispatch<SetStateAction<CurrentQuoteFormType[] | null>>;
   setQuoteFormPrice: Dispatch<SetStateAction<number | null>>;
   quoteFormPrice: number | null;
+  loggedInUser: LoggedInUserType | null;
 }
 
 export const AppContext = createContext<AppContextProviderType | null>(null);
@@ -60,6 +66,7 @@ export const AppContext = createContext<AppContextProviderType | null>(null);
 export default function AppContextProvider({ children }: { children: ReactNode }) {
   const [currentQuoteForm, setCurrentQuoteForm] = useState<CurrentQuoteFormType[] | null>(currentQuoteFormData);
   const [quoteFormPrice, setQuoteFormPrice] = useState<number | null>(0);
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUserType | null>(null);
 
   useEffect(() => {
     if (currentQuoteForm) {
@@ -85,6 +92,15 @@ export default function AppContextProvider({ children }: { children: ReactNode }
     }
   }, [currentQuoteForm])
 
+  useEffect(() => {
+    const storedUserSignedin = localStorage.getItem('user');
+    const userSignedin = storedUserSignedin ? JSON.parse(storedUserSignedin) : null;
+
+    if (userSignedin) {
+      setLoggedInUser(userSignedin);
+    }
+  }, [])
+
   return (
     <AppContext.Provider
       value={{
@@ -92,6 +108,7 @@ export default function AppContextProvider({ children }: { children: ReactNode }
         setCurrentQuoteForm,
         quoteFormPrice,
         setQuoteFormPrice,
+        loggedInUser,
       }}
     >
       {children}
