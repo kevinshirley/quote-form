@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button } from 'antd';
 import { LogIn } from "lucide-react";
 
 const Hero = () => {
