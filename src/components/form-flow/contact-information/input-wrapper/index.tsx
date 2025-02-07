@@ -12,7 +12,7 @@ const InputWrapper: React.FC<InputWrapperType> = ({
   htmlFor,
 }) => {
   return (
-    <div className='mb-5'>
+    <div className='mb-5 relative'>
       <label htmlFor={htmlFor}>{label}</label>
       {children}
     </div>
