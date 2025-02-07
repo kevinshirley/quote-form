@@ -33,3 +33,7 @@ body {
 .quote-form-item:nth-last-child(2) {
   @apply mb-4;
 }
+
+.hero-gradient {
+  background: linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%);
+}

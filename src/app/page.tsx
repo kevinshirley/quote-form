@@ -1,11 +1,9 @@
-import FormFlow from '@/components/form-flow'
-import QuotePrice from '@/components/quote-price'
+import Hero from '@/components/hero';
 
 export default function Home() {
   return (
-    <main className='relative bg-white min-h-screen py-6'>
-      <QuotePrice />
-      <FormFlow />
+    <main className='min-h-screen'>
+      <Hero />
     </main>
   );
 }
