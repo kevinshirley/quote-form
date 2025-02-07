@@ -4,7 +4,13 @@ import { useState } from "react";
 import { Input, Button } from 'antd';
 import Link from "next/link";
 import { LogIn, Lock, Mail } from "lucide-react";
+import { toast } from "sonner";
 import InputWrapper from '@/components/form-flow/contact-information/input-wrapper';
+
+interface UserType {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,8 +18,30 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic
-    console.log("Login attempt with:", { email, password });
+
+    const users = localStorage.getItem("users");
+
+    if (users) {
+      const parsedUsers = JSON.parse(users);
+      
+      const userExist = parsedUsers.find((user: UserType) => user.email === email);
+
+      if (userExist) {
+        toast.error("User exist already.");
+      } else {
+        const updatedUsers = [...parsedUsers, { email: email.trim(), password }];
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        toast.success("Successfully signed up!");
+        setEmail('');
+        setPassword('');
+      }
+    } else {
+      localStorage.setItem("users", JSON.stringify([{ email, password }]));
+      toast.success("Successfully signed up!");
+      setEmail('');
+      setPassword('');
+    }
+
   };
 
   return (
@@ -58,7 +86,7 @@ const Login = () => {
             </div>
           </div>
 
-          <Button className="w-full bg-violet-400 text-white hover:bg-primary/90">
+          <Button className="w-full bg-violet-400 text-white hover:bg-primary/90" htmlType="submit">
             <LogIn className="mr-2 h-4 w-4" /> Sign up
           </Button>
         </form>
