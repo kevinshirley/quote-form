@@ -20,9 +20,9 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-lg shadow-xl">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Create an account</h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to your account to continue
+            Sign up to start creating forms
           </p>
         </div>
         
@@ -59,15 +59,15 @@ const Login = () => {
           </div>
 
           <Button className="w-full bg-violet-400 text-white hover:bg-primary/90">
-            <LogIn className="mr-2 h-4 w-4" /> Sign in
+            <LogIn className="mr-2 h-4 w-4" /> Sign up
           </Button>
         </form>
 
         <div className="mt-4 text-center space-y-2">
 					<p className="text-sm text-gray-600 mb-6">
-						Don't have an account?{" "}
-            <Link className='text-violet-400 hover:text-primary/90' href='/signup'>
-							Sign up
+            Already have an account?{" "}
+            <Link className='text-violet-400 hover:text-primary/90' href='/login'>
+							Sign in
 						</Link>
           </p>
 					<Link href="/">

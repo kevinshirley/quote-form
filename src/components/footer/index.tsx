@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import Link from "next/link";
 
 const Footer = () => {
 	const d = new Date();
@@ -13,7 +14,9 @@ const Footer = () => {
             <p className="text-gray-400 mb-4">
               Create quote forms in minutes. No coding required.
             </p>
-            <Button className='bg-violet-400 text-white border-violet-400'>Get Started Free</Button>
+						<Link href="/signup">
+							<Button className='bg-violet-400 text-white border-violet-400'>Get Started Free</Button>
+						</Link>
           </div>
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Product</h4>
