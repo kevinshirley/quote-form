@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import LoggedInUserValidation from '@/components/logged-in-user-validation';
 
 import './globals.css';
 
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Sonner />
-        {children}
+        <LoggedInUserValidation>
+          <Sonner />
+          {children}
+        </LoggedInUserValidation>
       </body>
     </html>
   );

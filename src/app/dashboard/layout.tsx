@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import AppContextProvider from '@/context/app-context';
+import DropdownMenu from '@/components/dropdown-menu';
 
 import '../globals.css';
 
@@ -36,8 +37,9 @@ export default function RootLayout({
             {/* Main Content Wrapper */}
             <div className="grid grid-rows-[auto_1fr] h-screen">
               {/* Top Bar (Fixed within Main Content) */}
-              <header className="bg-white p-4 shadow-md sticky top-0 z-10">
+              <header className="bg-white p-4 shadow-md sticky top-0 z-10 flex justify-between">
                 <h1 className="text-lg font-semibold">Dashboard</h1>
+                <DropdownMenu />
               </header>
 
               {/* Scrollable Main Content */}
