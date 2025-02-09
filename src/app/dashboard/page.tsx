@@ -29,8 +29,8 @@ export default function Dashboard() {
 							title={<Title />}
 							style={{ width: 300 }}
 							actions={[
-								<Edit />,
-								<ViewResponses />,
+								<Edit key='edit' />,
+								<ViewResponses key='responses' />,
 							]}
 						>
 							<p>12 responses</p>
