@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from 'react-hot-toast';
 import LoggedInUserValidation from '@/components/logged-in-user-validation';
 
 import './globals.css';
@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <LoggedInUserValidation>
-          <Sonner />
           {children}
         </LoggedInUserValidation>
+        <Toaster position='top-right' />
       </body>
     </html>
   );

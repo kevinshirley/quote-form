@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Input, Button } from 'antd';
 import Link from "next/link";
 import { LogIn, Lock, Mail } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import InputWrapper from '@/components/form-flow/contact-information/input-wrapper';
 import { UserType } from '@/interfaces/User';
+import toast, { APPEARANCE } from '@/utils/toast';
 
 const Login = () => {
 	const router = useRouter();
@@ -26,13 +26,19 @@ const Login = () => {
       const userExist: UserType | null = parsedUsers.find((user: UserType) => user.email === email);
 
       if (userExist) {
-        router.push("/dashboard");
 				localStorage.setItem("user", JSON.stringify({ firstName: userExist.firstName, lastName: userExist.lastName, email }));
+        router.push("/dashboard");
       } else {
-        toast.error("No user created with this information listed.");
+        toast({
+          appearance: APPEARANCE.ERROR,
+          message: 'No user created with this information listed.',
+        })
       }
     } else {
-      toast.error("No user created with this information.");
+      toast({
+				appearance: APPEARANCE.ERROR,
+				message: 'No user created with this information.',
+			})
     }
   };
 

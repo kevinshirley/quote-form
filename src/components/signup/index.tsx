@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Input, Button } from 'antd';
 import Link from "next/link";
 import { LogIn, Lock, Mail, User } from "lucide-react";
-import { toast } from "sonner";
 import InputWrapper from '@/components/form-flow/contact-information/input-wrapper';
+import toast, { APPEARANCE } from '@/utils/toast';
 
 interface UserType {
   email: string;
@@ -29,11 +29,17 @@ const Login = () => {
       const userExist = parsedUsers.find((user: UserType) => user.email === email.trim());
 
       if (userExist) {
-        toast.error("User exist already.");
+        toast({
+          appearance: APPEARANCE.ERROR,
+          message: 'User exist already.',
+        })
       } else {
         const updatedUsers = [...parsedUsers, { firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), password }];
         localStorage.setItem("users", JSON.stringify(updatedUsers));
-        toast.success("Successfully signed up!");
+        toast({
+          appearance: APPEARANCE.SUCCESS,
+          message: 'Successfully signed up!',
+        });
         setFirstName('');
         setLastName('');
         setEmail('');
@@ -41,7 +47,10 @@ const Login = () => {
       }
     } else {
       localStorage.setItem("users", JSON.stringify([{ firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), password }]));
-      toast.success("Successfully signed up!");
+      toast({
+        appearance: APPEARANCE.SUCCESS,
+        message: 'Successfully signed up!',
+      });
       setFirstName('');
       setLastName('');
       setEmail('');
