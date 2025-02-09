@@ -4,6 +4,7 @@ import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space, Tooltip } from 'antd';
 import { Bolt, CircleUser, LogOut, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAppContext } from '@/context/app-context';
 
 const DropdownMenu = () => {
 	const router = useRouter();
@@ -39,13 +40,16 @@ const DropdownMenu = () => {
 		onClick: handleMenuClick,
 	};
 
+	const {
+		loggedInUser,
+	} = useAppContext();
+
 	return (
     <Dropdown menu={menuProps}>
       <Button className='border-none'>
         <Space>
           <CircleUser />
-					{'Your Name'}
-          {/* <ChevronDown /> */}
+					{`${loggedInUser?.firstName || ''} ${loggedInUser?.lastName || ''}`}
         </Space>
       </Button>
     </Dropdown>

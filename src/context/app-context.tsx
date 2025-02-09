@@ -8,11 +8,10 @@ import {
   SetStateAction,
   Dispatch,
   useEffect,
-} from 'react'
-
-import { isNil, sum } from 'lodash'
-
-import { currentQuoteFormData } from '@/context/data/quote-form'
+} from 'react';
+import { isNil, sum } from 'lodash';
+import { currentQuoteFormData } from '@/context/data/quote-form';
+import { UserType } from '@/interfaces/User';
 
 export const quoteFormType = {
   cardRadio: 'cardRadio',
@@ -48,17 +47,12 @@ export interface CurrentQuoteFormType {
   answer?: string | number | CurrentQuoteFormOptionType | CurrentQuoteFormOptionType[];
 }
 
-interface LoggedInUserType {
-  email: string;
-  password: string;
-}
-
 interface AppContextProviderType {
   currentQuoteForm: CurrentQuoteFormType[] | null;
   setCurrentQuoteForm: Dispatch<SetStateAction<CurrentQuoteFormType[] | null>>;
   setQuoteFormPrice: Dispatch<SetStateAction<number | null>>;
   quoteFormPrice: number | null;
-  loggedInUser: LoggedInUserType | null;
+  loggedInUser: UserType | null;
 }
 
 export const AppContext = createContext<AppContextProviderType | null>(null);
@@ -66,7 +60,7 @@ export const AppContext = createContext<AppContextProviderType | null>(null);
 export default function AppContextProvider({ children }: { children: ReactNode }) {
   const [currentQuoteForm, setCurrentQuoteForm] = useState<CurrentQuoteFormType[] | null>(currentQuoteFormData);
   const [quoteFormPrice, setQuoteFormPrice] = useState<number | null>(0);
-  const [loggedInUser, setLoggedInUser] = useState<LoggedInUserType | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<UserType | null>(null);
 
   useEffect(() => {
     if (currentQuoteForm) {

@@ -7,11 +7,7 @@ import { LogIn, Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import InputWrapper from '@/components/form-flow/contact-information/input-wrapper';
-
-interface UserType {
-  email: string;
-  password: string;
-}
+import { UserType } from '@/interfaces/User';
 
 const Login = () => {
 	const router = useRouter();
@@ -27,11 +23,11 @@ const Login = () => {
     if (users) {
       const parsedUsers = JSON.parse(users);
       
-      const userExist = parsedUsers.find((user: UserType) => user.email === email);
+      const userExist: UserType | null = parsedUsers.find((user: UserType) => user.email === email);
 
       if (userExist) {
         router.push("/dashboard");
-				localStorage.setItem("user", JSON.stringify({ email, password }));
+				localStorage.setItem("user", JSON.stringify({ firstName: userExist.firstName, lastName: userExist.lastName, email }));
       } else {
         toast.error("No user created with this information listed.");
       }
