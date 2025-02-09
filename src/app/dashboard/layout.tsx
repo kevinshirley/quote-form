@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import Link from "next/link";
 import AppContextProvider from '@/context/app-context';
 import DropdownMenu from '@/components/dropdown-menu';
 
@@ -27,9 +28,10 @@ export default function RootLayout({
             <aside className="bg-gray-900 text-white p-4 h-screen sticky top-0">
               <nav>
                 <ul className="space-y-2">
-                  <li className="p-3 hover:bg-gray-700 rounded">Dashboard</li>
+                  <Link href="/dashboard"><li className="p-3 hover:bg-gray-700 rounded relative">Dashboard</li></Link>
+                  <li className="p-3 hover:bg-gray-700 rounded">Forms</li>
                   <li className="p-3 hover:bg-gray-700 rounded">Analytics</li>
-                  <li className="p-3 hover:bg-gray-700 rounded">Settings</li>
+                  <li className="p-3 hover:bg-gray-700 rounded">Workflows</li>
                 </ul>
               </nav>
             </aside>

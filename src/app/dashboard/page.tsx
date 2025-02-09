@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import { FileText, Pencil, MessageSquareReply } from 'lucide-react';
+import Link from "next/link";
 
 function Title() {
 	return (
@@ -9,13 +10,13 @@ function Title() {
 
 function Edit() {
 	return (
-		<h3 className='gap-1 flex justify-center'><Pencil /> Edit</h3>
+		<Link href="/dashboard/forms/1s1s5/edit"><div className='gap-1 flex justify-center'><Pencil /> Edit</div></Link>
 	);
 }
 
 function ViewResponses() {
 	return (
-		<h3 className='gap-1 flex justify-center'><MessageSquareReply /> View Responses</h3>
+		<Link href="/dashboard/forms/1s1s5/responses"><div className='gap-1 flex justify-center'><MessageSquareReply /> View Responses</div></Link>
 	);
 }
 

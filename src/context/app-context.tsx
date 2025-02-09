@@ -12,6 +12,7 @@ import {
 import { isNil, sum } from 'lodash';
 import { currentQuoteFormData } from '@/context/data/quote-form';
 import { UserType } from '@/interfaces/User';
+import { useRouter } from 'next/navigation';
 
 export const quoteFormType = {
   cardRadio: 'cardRadio',
@@ -58,6 +59,7 @@ interface AppContextProviderType {
 export const AppContext = createContext<AppContextProviderType | null>(null);
 
 export default function AppContextProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const [currentQuoteForm, setCurrentQuoteForm] = useState<CurrentQuoteFormType[] | null>(currentQuoteFormData);
   const [quoteFormPrice, setQuoteFormPrice] = useState<number | null>(0);
   const [loggedInUser, setLoggedInUser] = useState<UserType | null>(null);
@@ -92,6 +94,8 @@ export default function AppContextProvider({ children }: { children: ReactNode }
 
     if (userSignedin) {
       setLoggedInUser(userSignedin);
+    } else {
+      router.push('/');
     }
   }, [])
 
